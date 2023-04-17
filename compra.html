@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <img src="IMG-20230416-WA0015.jpg" alt="">
+    <form>
+		<label for="cep">CEP:</label>
+		<input type="text" id="cep" name="cep">
+		<input type="button" value="calcular frete" onclick="calcularFrete()">
+		<br><br>
+		<label for="rua">Rua:</label>
+		<input type="text" id="rua" name="rua"><br>
+		<label for="cidade">Cidade:</label>
+		<input type="text" id="cidade" name="cidade"><br>
+		<label for="estado">Estado:</label>
+		<input type="text" id="estado" name="estado"><br>
+	</form>
+    <style>
+		input[type="text"] {
+			padding: 8px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-sizing: border-box;
+			margin-bottom: 10px;
+			width: 40;
+		}
+		
+		input[type="button"] {
+			background-color: plum;
+			border: none;
+			color: white;
+			padding: 10px 20px;
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			font-size: 16px;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+		input[type="button"]:hover {
+			background-color: plum;
+		}
+	</style>
+<script>
+    function calcularFrete() {
+        // Obter o valor do campo CEP
+        var cep = document.getElementById("cep").value;
+        // Enviar uma solicitação para um serviço da web que retorna as informações do endereço correspondente
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Analisar os dados de resposta e preencher automaticamente os campos de endereço no formulário
+                var endereco = JSON.parse(this.responseText);
+                document.getElementById("rua").value = endereco.logradouro;
+                document.getElementById("cidade").value = endereco.localidade;
+                document.getElementById("estado").value = endereco.uf;
+            }
+        };
+        request.open("GET", "https://viacep.com.br/ws/" + cep + "/json/", true);
+        request.send();
+    }
+</script>
+
+<div class="center">
+    <div class="pagamento">
+        <a href=""><img src="Screenshot_20230417-015211.png"width="350" height="110"/></a>
+    </div>
+</div>
+<div class="center">
+    <div class="home">
+        <button style="background-color: black; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; "onclick="window.history.back()">
+            <img src="IMG-20230416-WA0010.jpg" alt="Voltar" width="80" height="80">
+          </button>
+    </div>
+</div>
+<div class="center">
+    <div class="mercadopago">
+        <button style="background-color: black; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; "onclick="window.location.href='https://www.mercadopago.com.br/checkout/v1/payment/redirect/e072c8b7-644d-45ad-9aa9-efcea1b98508/payment-option-form/?router-request-id=934e212e-3b35-4617-82db-284e11ff8f33&source=link&preference-id=661111714-a9d8ce7c-905b-4682-b3f2-657881e4967e&p=fbe5460a49240aaad509948d5839ab3a#/'">
+    <img src="Screenshot_20230417-015211~2.png" width="350" height="100"alt="mercadopago">
+</button>
+    </div>
+</div>
+
+</body>
+</html>
